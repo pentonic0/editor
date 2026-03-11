@@ -62,8 +62,8 @@ export default function FloatingToolbar({ editor }: FloatingToolbarProps) {
     const toolbarHeight = 44;
     const margin = 8;
     
-    let left = rect.left + rect.width / 2 - toolbarWidth / 2 + window.scrollX;
-    let top = rect.top - toolbarHeight - margin + window.scrollY;
+    let left = rect.left + rect.width / 2 - toolbarWidth / 2;
+    let top = rect.top - toolbarHeight - margin;
     
     // Clamp to viewport edges
     left = Math.max(8, Math.min(left, window.innerWidth - toolbarWidth - 8));
@@ -132,7 +132,7 @@ export default function FloatingToolbar({ editor }: FloatingToolbarProps) {
     <div
       ref={toolbarRef}
       style={{
-        position: "absolute",
+        position: "fixed",
         top: position.top,
         left: position.left,
         zIndex: 1000,
@@ -244,7 +244,7 @@ export default function FloatingToolbar({ editor }: FloatingToolbarProps) {
             onClick={() => editor.chain().focus().toggleBlockquote().run()}
             title="Blockquote"
           >
-            <span style={{ fontSize: "1rem" }}>"</span>
+            <span style={{ fontSize: "1rem" }}>&quot;</span>
           </button>
 
           {divider}
