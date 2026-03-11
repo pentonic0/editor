@@ -27,7 +27,6 @@ interface ImageBlockProps {
 export default function ImageBlock({ block, onUpdate, onRemove, isSelected, onSelect }: ImageBlockProps) {
   const data = block.data as unknown as ImageBlockData;
   const [isDragging, setIsDragging] = useState(false);
-  const [isEditingCaption, setIsEditingCaption] = useState(false);
   const fileInputRef = useRef<HTMLInputElement>(null);
 
   // Convert file to base64 for embedding in HTML export
@@ -67,7 +66,7 @@ export default function ImageBlock({ block, onUpdate, onRemove, isSelected, onSe
       onClick={onSelect}
       style={{
         position: "relative",
-        margin: "1.5em 0",
+        margin: "1.1em 0",
         cursor: "default",
       }}
     >
@@ -75,17 +74,17 @@ export default function ImageBlock({ block, onUpdate, onRemove, isSelected, onSe
       {isSelected && data.src && (
         <div style={{
           position: "absolute",
-          top: "-44px",
+          top: "-48px",
           left: "50%",
           transform: "translateX(-50%)",
           background: "var(--bg-elevated)",
           border: "1px solid var(--border-default)",
-          borderRadius: "var(--radius-md)",
-          padding: "6px 8px",
+          borderRadius: "12px",
+          padding: "8px",
           display: "flex",
           gap: "4px",
           zIndex: 20,
-          boxShadow: "var(--shadow-md)",
+          boxShadow: "0 10px 30px rgba(16,24,40,0.14)",
           animation: "fadeIn 0.15s ease",
         }}>
           {widthOptions.map(opt => (
@@ -96,7 +95,7 @@ export default function ImageBlock({ block, onUpdate, onRemove, isSelected, onSe
               style={{
                 padding: "4px 10px",
                 background: data.width === opt.value ? "var(--accent-amber)" : "transparent",
-                color: data.width === opt.value ? "#000" : "var(--text-secondary)",
+                color: data.width === opt.value ? "#fff" : "var(--text-secondary)",
                 border: "none",
                 borderRadius: "var(--radius-sm)",
                 cursor: "pointer",
@@ -152,10 +151,11 @@ export default function ImageBlock({ block, onUpdate, onRemove, isSelected, onSe
         }}>
           <div style={{
             position: "relative",
-            border: isSelected ? "2px solid var(--accent-amber)" : "2px solid transparent",
-            borderRadius: "var(--radius-md)",
+            border: isSelected ? "1px solid var(--accent-amber)" : "1px solid var(--border-subtle)",
+            borderRadius: "16px",
             overflow: "hidden",
-            transition: "border-color 0.15s",
+            boxShadow: isSelected ? "0 16px 38px rgba(124,92,255,0.18)" : "0 8px 24px rgba(16,24,40,0.08)",
+            transition: "all 0.2s",
           }}>
             {/* eslint-disable-next-line @next/next/no-img-element */}
             <img
@@ -164,7 +164,7 @@ export default function ImageBlock({ block, onUpdate, onRemove, isSelected, onSe
               style={{
                 width: "100%",
                 display: "block",
-                borderRadius: "var(--radius-md)",
+                borderRadius: "16px",
               }}
             />
           </div>
@@ -175,7 +175,7 @@ export default function ImageBlock({ block, onUpdate, onRemove, isSelected, onSe
               contentEditable={isSelected}
               suppressContentEditableWarning
               onBlur={(e) => onUpdate(block.id, { caption: e.currentTarget.textContent || "" })}
-              onClick={(e) => { e.stopPropagation(); setIsEditingCaption(true); }}
+              onClick={(e) => { e.stopPropagation(); }}
               style={{
                 textAlign: "center",
                 fontFamily: "var(--font-body)",
@@ -200,12 +200,12 @@ export default function ImageBlock({ block, onUpdate, onRemove, isSelected, onSe
           onDragLeave={() => setIsDragging(false)}
           onClick={() => fileInputRef.current?.click()}
           style={{
-            border: `2px dashed ${isDragging ? "var(--accent-amber)" : "var(--border-default)"}`,
-            borderRadius: "var(--radius-md)",
-            padding: "3rem 2rem",
+            border: `1.5px dashed ${isDragging ? "var(--accent-amber)" : "var(--border-default)"}`,
+            borderRadius: "16px",
+            padding: "3.2rem 2rem",
             textAlign: "center",
             cursor: "pointer",
-            background: isDragging ? "rgba(212,168,71,0.05)" : "var(--bg-elevated)",
+            background: isDragging ? "rgba(124,92,255,0.07)" : "linear-gradient(180deg, #ffffff 0%, #f8faff 100%)",
             transition: "all 0.2s",
           }}
         >

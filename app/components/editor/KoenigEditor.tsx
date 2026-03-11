@@ -238,8 +238,8 @@ export default function KoenigEditor() {
         </div>
       </nav>
 
-      <div style={{ flex: 1, display: "flex", justifyContent: "center", padding: "60px 24px 120px" }}>
-        <div style={{ width: "100%", maxWidth: "740px", position: "relative" }}>
+      <div style={{ flex: 1, display: "flex", justifyContent: "center", padding: "48px 24px 120px" }}>
+        <div style={{ width: "100%", maxWidth: "780px", position: "relative" }}>
           <FloatingToolbar editor={editor} />
           {caretInserterPos && (
             <div style={{ position: "fixed", top: caretInserterPos.top, left: caretInserterPos.left, zIndex: 1200 }}>
@@ -251,27 +251,44 @@ export default function KoenigEditor() {
             <DragDropContext onDragEnd={handleDragEnd}>
               <Droppable droppableId="blocks-droppable">
                 {(provided) => (
-                  <div ref={provided.innerRef} {...provided.droppableProps} style={{ marginTop: "1em" }}>
+                  <div ref={provided.innerRef} {...provided.droppableProps} style={{ marginTop: "1em", display: "grid", gap: "18px" }}>
                     {blocks.map((block, index) => (
                       <Draggable key={block.id} draggableId={block.id} index={index}>
                         {(draggableProvided, draggableSnapshot) => (
                           <div
                             ref={draggableProvided.innerRef}
                             {...draggableProvided.draggableProps}
-                            style={{ position: "relative", ...draggableProvided.draggableProps.style, opacity: draggableSnapshot.isDragging ? 0.85 : 1 }}
+                            style={{
+                              position: "relative",
+                              ...draggableProvided.draggableProps.style,
+                              opacity: draggableSnapshot.isDragging ? 0.9 : 1,
+                            }}
                           >
                             <div
                               {...draggableProvided.dragHandleProps}
                               style={{
-                                position: "absolute", left: "-32px", top: "50%", transform: "translateY(-50%)", width: "24px", height: "32px",
-                                display: "grid", placeItems: "center", color: "var(--text-muted)", cursor: "grab", opacity: selectedBlockId === block.id ? 1 : 0
+                                position: "absolute", left: "-42px", top: "50%", transform: "translateY(-50%)", width: "32px", height: "36px",
+                                display: "grid", placeItems: "center", color: "var(--text-muted)", cursor: "grab", opacity: selectedBlockId === block.id ? 1 : 0,
+                                background: "var(--bg-elevated)", border: "1px solid var(--border-subtle)", borderRadius: "12px",
+                                boxShadow: "var(--shadow-sm)",
                               }}
                               onMouseEnter={(e) => (e.currentTarget.style.opacity = "1")}
                               onMouseLeave={(e) => { if (selectedBlockId !== block.id) e.currentTarget.style.opacity = "0"; }}
                             >
                               ⠿
                             </div>
-                            {renderBlock(block)}
+                            <div
+                              style={{
+                                borderRadius: "18px",
+                                border: selectedBlockId === block.id ? "1px solid color-mix(in srgb, var(--accent-amber) 45%, var(--border-default))" : "1px solid var(--border-subtle)",
+                                background: "linear-gradient(180deg, color-mix(in srgb, var(--bg-elevated) 90%, #ffffff), var(--bg-elevated))",
+                                boxShadow: selectedBlockId === block.id ? "0 16px 36px rgba(20, 20, 20, 0.08)" : "0 8px 24px rgba(20, 20, 20, 0.04)",
+                                padding: "4px 18px",
+                                transition: "all 0.18s ease",
+                              }}
+                            >
+                              {renderBlock(block)}
+                            </div>
                           </div>
                         )}
                       </Draggable>
@@ -282,8 +299,18 @@ export default function KoenigEditor() {
               </Droppable>
             </DragDropContext>
           )}
-
-          <EditorContent editor={editor} />
+          <div
+            style={{
+              marginTop: "1.1em",
+              borderRadius: "20px",
+              border: "1px solid var(--border-subtle)",
+              background: "var(--bg-elevated)",
+              boxShadow: "0 12px 36px rgba(16, 24, 40, 0.06)",
+              padding: "22px 26px",
+            }}
+          >
+            <EditorContent editor={editor} />
+          </div>
         </div>
       </div>
     </div>
