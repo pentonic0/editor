@@ -46,6 +46,7 @@ interface BlockInserterProps {
 }
 
 export default function BlockInserter({ onInsert, position = "inline" }: BlockInserterProps) {
+  const isFloating = position === "floating";
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
   const [highlightedIndex, setHighlightedIndex] = useState(0);
@@ -67,10 +68,7 @@ export default function BlockInserter({ onInsert, position = "inline" }: BlockIn
   }, {} as Record<string, BlockOption[]>);
 
   useEffect(() => {
-    if (isOpen) {
-      setTimeout(() => searchRef.current?.focus(), 50);
-      setHighlightedIndex(0);
-    }
+    if (isOpen) setTimeout(() => searchRef.current?.focus(), 50);
   }, [isOpen]);
 
   // Close on outside click
@@ -111,11 +109,15 @@ export default function BlockInserter({ onInsert, position = "inline" }: BlockIn
     <div ref={menuRef} style={{ position: "relative", display: "inline-block" }}>
       {/* + Button */}
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={() => {
+          setIsOpen(!isOpen);
+          setHighlightedIndex(0);
+        }}
         title="Insert block"
         style={{
           width: 32,
           height: 32,
+          boxShadow: isFloating ? "var(--shadow-md)" : undefined,
           borderRadius: "50%",
           background: isOpen ? "var(--accent-amber)" : "var(--bg-elevated)",
           border: `1px solid ${isOpen ? "var(--accent-amber)" : "var(--border-default)"}`,
@@ -200,7 +202,7 @@ export default function BlockInserter({ onInsert, position = "inline" }: BlockIn
                 }}>
                   {group}
                 </div>
-                {options.map((opt, i) => {
+                {options.map((opt) => {
                   const globalIndex = filteredOptions.indexOf(opt);
                   return (
                     <button

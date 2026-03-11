@@ -11,7 +11,7 @@ const KoenigEditor = dynamic(() => import("./components/editor/KoenigEditor"), {
   loading: () => (
     <div style={{
       display: "flex", alignItems: "center", justifyContent: "center",
-      height: "100vh", background: "#0f0f0f", color: "#5a5550",
+      height: "100vh", background: "#faf8f3", color: "#8d816e",
       fontFamily: "'DM Sans', sans-serif", fontSize: "0.875rem", letterSpacing: "0.05em"
     }}>
       Loading editor...
