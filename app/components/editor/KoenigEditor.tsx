@@ -38,6 +38,7 @@ export default function KoenigEditor() {
   const [exportSuccess, setExportSuccess] = useState(false);
   const [wordCount, setWordCount] = useState(0);
   const [theme, setTheme] = useState<ThemeMode>("light");
+  const readingTimeMinutes = Math.max(1, Math.ceil(wordCount / 200));
   const [caretInserterPos, setCaretInserterPos] = useState<{ top: number; left: number } | null>(null);
 
   const editor = useEditor({
@@ -98,8 +99,13 @@ export default function KoenigEditor() {
   }, [editor, updateCaretInserter]);
 
   const insertBlock = useCallback((type: BlockType) => {
+    const continueWriting = () => {
+      editor?.chain().focus("end").insertContent("<p></p><p></p>").focus("end").run();
+    };
+
     if (type === "divider") {
       editor?.chain().focus().setHorizontalRule().createParagraphNear().run();
+      continueWriting();
       return;
     }
 
@@ -111,7 +117,7 @@ export default function KoenigEditor() {
 
     setBlocks(prev => [...prev, newBlock]);
     setSelectedBlockId(newBlock.id);
-    editor?.chain().focus("end").insertContent("<p></p>").run();
+    continueWriting();
   }, [editor]);
 
   function getDefaultBlockData(type: BlockType): Record<string, unknown> {
@@ -154,10 +160,11 @@ export default function KoenigEditor() {
     if (!editor) return;
     setIsExporting(true);
     try {
-      let fullContent = editor.getHTML();
+      let fullContent = "";
       blocks.forEach(block => {
         fullContent += `<div data-block-id="${block.id}"></div>`;
       });
+      fullContent += editor.getHTML();
       const html = generateStandaloneHtml({ title, content: fullContent, blocks });
       downloadHtmlFile(html, title || "article");
       setExportSuccess(true);
@@ -209,6 +216,7 @@ export default function KoenigEditor() {
 
         <div style={{ display: "flex", alignItems: "center", gap: 16, color: "var(--text-muted)", fontSize: "0.8rem" }}>
           <span>{wordCount} words</span>
+          <span>{readingTimeMinutes} min read</span>
           <span>{blocks.length} block{blocks.length === 1 ? "" : "s"}</span>
         </div>
 
@@ -238,8 +246,6 @@ export default function KoenigEditor() {
               <BlockInserter onInsert={insertBlock} position="floating" />
             </div>
           )}
-
-          <EditorContent editor={editor} />
 
           {blocks.length > 0 && (
             <DragDropContext onDragEnd={handleDragEnd}>
@@ -276,6 +282,8 @@ export default function KoenigEditor() {
               </Droppable>
             </DragDropContext>
           )}
+
+          <EditorContent editor={editor} />
         </div>
       </div>
     </div>
