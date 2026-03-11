@@ -2,14 +2,14 @@
 @import "tailwindcss";
 
 :root {
-  --bg-primary: #faf8f3; --bg-secondary: #ffffff; --bg-elevated: #ffffff;
-  --bg-hover: #f2eee4; --bg-active: #ece5d6;
-  --border-subtle: #e8e1d2; --border-default: #dbd2c0; --border-strong: #c9bda7;
-  --text-primary: #201c14; --text-secondary: #5f5546; --text-muted: #8d816e; --text-placeholder: #a79a85;
-  --accent-amber: #d4a847; --accent-amber-dim: #a07830;
+  --bg-primary: #f4f7fb; --bg-secondary: #ffffff; --bg-elevated: #ffffff;
+  --bg-hover: #f5f8fd; --bg-active: #edf3fb;
+  --border-subtle: #e4eaf4; --border-default: #d2dceb; --border-strong: #b5c3d9;
+  --text-primary: #101828; --text-secondary: #344054; --text-muted: #667085; --text-placeholder: #98a2b3;
+  --accent-amber: #7c5cff; --accent-amber-dim: #5b3ee0;
   --accent-blue: #2f73c9; --accent-green: #2f9e61; --accent-red: #ce4d4d; --accent-purple: #7a62c7;
-  --selection-bg: rgba(212, 168, 71, 0.22);
-  --shadow-sm: 0 1px 3px rgba(35,24,5,0.08); --shadow-md: 0 4px 12px rgba(35,24,5,0.12); --shadow-lg: 0 8px 32px rgba(35,24,5,0.18);
+  --selection-bg: rgba(124, 92, 255, 0.2);
+  --shadow-sm: 0 1px 2px rgba(16,24,40,0.06); --shadow-md: 0 10px 20px rgba(16,24,40,0.08); --shadow-lg: 0 20px 45px rgba(16,24,40,0.12);
   --radius-sm: 4px; --radius-md: 8px; --radius-lg: 12px;
   --font-body: 'DM Sans', sans-serif; --font-editorial: 'Libre Baskerville', serif; --font-mono: 'JetBrains Mono', monospace;
 }
